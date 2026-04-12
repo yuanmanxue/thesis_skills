@@ -1,89 +1,87 @@
----
+# SKILL: thesis-final-assembly
+
 name: thesis-final-assembly
-description: 论文定稿装配与全稿一致性检查技能。 Use for: 临近提交，需要把分散章节整合为最终提交稿时使用。
----
 
-# Thesis Skill File
+description:
+Use when the user or orchestrator needs to assemble the final complete thesis document or a major report (e.g. full paper, 中期报告 final version). This skill collects outputs from all other skills, assembles them into a single, well-structured document with proper order, table of contents, front matter, and ZJU formatting.
 
-本文档是 Git 仓库中的 **技能文件单元**。当前版本采用 **方案 A：先落库占位，再逐步补全文本原文**。因此，凡遇到原始技能定义未在当前上下文中完整保留之处，都会明确标注 **待补原文**，以避免把推断内容误当成正式定义。
+## Overview
 
-> 适用主题：浙江大学 MEM 论文《AI赋能下创业公司技术开发的质量管理》
-
-> 统一调用格式：`skill-name：具体请求`
-
----
-
-## 技能名称
-
-**thesis-final-assembly**
-
-## 当前状态
-
-**待补原文**
-
-## 功能定位
-
-论文定稿装配与全稿一致性检查技能。
+这是整个论文系统的最终组装器。核心原则：把所有已完成部分（章节、摘要、参考文献、图表、致谢等）一次性整合成符合浙大规范的完整文档。只组装已有内容，不生成新正文。
 
 ## When to Use
 
-临近提交，需要把分散章节整合为最终提交稿时使用。
+- 用户说“生成完整论文”、“组装最终版本”、“中期报告最终文档”、“完整论文输出”等
+- 论文接近完成，需要一次性打包时
+- Orchestrator 在最后阶段需要输出完整文件时
+
+Do NOT use when: 还需要生成新章节、修订或分析（此时先调用对应子技能）。
 
 ## Core Pattern
 
-统一章节编号、图表索引、目录、附录、引文和格式层级。
+1. 从 thesis-orchestrator 获取当前论文所有已完成部分列表。
+2. 严格按照 ZJU MEM 论文标准结构组装：
+   - 封面
+   - 独创性声明 & 版权授权书
+   - 中英文摘要 + 关键词
+   - 目录（自动生成）
+   - 正文章节（1~n 章）
+   - 参考文献（来自 citation-management）
+   - 致谢
+   - 附录（如有）
+3. 调用 formatting-compliance-zju 确保全局格式正确。
+4. 插入所有图表（来自 visualization-professional）和引用（来自 citation-management）。
+5. 输出完整 Markdown 文档（可直接转 Word）。
+6. 提供“最终组装合规检查清单”（所有子技能输出是否齐全？格式是否符合浙大要求？文献是否全部验证？）。
 
-## Quick Reference
+## Quick Reference - ZJU MEM 完整论文结构
 
-| 项目 | 内容 |
-|---|---|
-| 典型输入 | 各章节定稿、图表清单、参考文献表、目录。 |
-| 典型输出 | 整合稿、装配问题清单、提交前检查结果。 |
-| 依赖关系 | 可与 formatting-compliance-zju、citation-management 联动。 |
-| 当前备注 | 重点是“拼成一份能交的稿”，而不只是局部修改。 |
+- 严格按《浙江大学工程管理硕士学位论文规范要求》：封面、声明、摘要、目录、正文、参考文献、致谢、附录。
+- 中期报告也按用户提供的模板结构组装。
+- 参考文献必须来自 citation-management 的 GB/T 7714 格式。
 
-## Implementation Process
+## Implementation / Process
 
-先确认当前任务是否属于 **thesis-final-assembly** 的职责范围，再检查是否存在前置技能或门禁约束。如果存在更高优先级的前置要求，例如文献核验、格式校验或答辩风险评估，应先满足前置条件，再进入本技能的主任务处理。执行过程中必须坚持实践导向、真实数据导向与学校规范导向，不得为了追求表达完整而虚构信息。
+1. 确认用户想要组装的内容（完整论文 / 中期报告最终版 / 某阶段文档）。
+2. 收集所有子技能的最新输出。
+3. 按标准顺序组装成单一文档。
+4. 运行 formatting-compliance-zju 检查。
+5. 输出完整 Markdown + 检查清单。
+6. 建议调用 revision-and-proofreading 或 strict-reviewer 做最终把关。
+7. 结束时询问是否需要导出特定格式或继续迭代。
 
-## Required Sub-Skills
+## Required Background / Sub-Skills
 
-该技能当前作为 thesis Skills 体系的一部分使用。若遇到跨任务情形，应优先由 **thesis-orchestrator** 进行总控分发；若涉及文献正式使用，应优先检查 **literature-verification** 是否已完成；若涉及最终提交稿，应与 **formatting-compliance-zju** 和 **thesis-final-assembly** 联动。
+- thesis-orchestrator（必须，提供当前状态）
+- formatting-compliance-zju
+- citation-management
+- visualization-professional
+- revision-and-proofreading（可选最终校对）
+- strict-reviewer（可选最终挑刺）
 
-## Common Mistakes
+## Common Mistakes to Avoid
 
-| 常见错误 | 风险 |
-|---|---|
-| 跳过前置技能直接写结论 | 容易造成格式错误、论证断层或引用失真 |
-| 把占位内容当正式原文 | 会导致技能定义与原始版本不一致 |
-| 忽视实践导向 | 会削弱 MEM 论文的工程价值 |
-| 忽视风险提示 | 会在中期、预答辩、盲审阶段暴露问题 |
+- 组装时生成新正文内容
+- 遗漏前置声明或参考文献
+- 格式不调用 formatting-compliance-zju
+- 不包含合规检查清单
+- 直接输出未验证的文献或图表
 
 ## Examples
 
-> 调用示例：`thesis-final-assembly：请基于当前草稿执行对应任务，并严格遵循 thesis Skills 体系规则。`
+Good Example:
+用户：thesis-final-assembly：生成中期报告最终完整文档
+输出：完整 Markdown 文档（按模板 1-5 节） + 所有图表/文献已插入 + 检查清单 + “建议调用 strict-reviewer 最终审查”。
 
-> 当前版本说明：本文件是可运行的仓库占位版，不等于此前对话中可能存在的完整原始技能文本。
+Bad Example (严格禁止):
+直接生成新章节内容或未调用子技能的结果。
 
 ## Testing / Self-Check
 
-在实际使用前，先自检以下三点：第一，当前任务是否确实属于本技能职责；第二，是否存在尚未完成的前置校验；第三，当前输出是否基于真实材料、真实数据与已确认规则，而不是推断性补写。
+- 是否只组装已有内容而不生成新正文？
+- 结构是否完全符合 ZJU 模板？
+- 是否包含所有必要部分（声明、摘要、目录、参考文献）？
+- 是否有合规检查清单？
+- 是否建议最终把关技能？
 
-## 固定底层约束
-
-| 主题 | 规则 |
-|---|---|
-| 论文主题 | AI赋能下创业公司技术开发的质量管理 |
-| 专业导向 | 浙江大学 MEM，实践导向、工程管理导向 |
-| 输出格式 | Markdown 优先，便于转 Word |
-| 文献要求 | 文献使用前必须先经 literature-verification |
-| 数据要求 | 禁止虚构数据，必须基于真实工程实践与真实数据 |
-| 图表要求 | 图注在下，表题在上，按章编号，自解释 |
-| 参考文献 | GB/T 7714—2015 |
-| 中期报告 | 必须采用固定五部分模板 |
-| 风险提示 | 中期报告和预答辩阶段必须显式提示风险 |
-
-
-## 原文恢复状态
-
-> 待补原文。如果后续补齐历史对话中的原始技能定义，应在保留本文件结构的基础上，用原文替换当前占位说明。
+End of Skill

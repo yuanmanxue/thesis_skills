@@ -1,89 +1,81 @@
----
+# SKILL: defense-prep
+
 name: defense-prep
-description: 中期、预答辩、盲审与正式答辩准备技能。 Use for: 需要准备汇报、模拟提问、识别高风险答辩问题时使用。
----
 
-# Thesis Skill File
+description:
+Use when the user needs preparation for pre-defense (预答辩), blind review (盲审), or final defense in ZJU MEM thesis process. This skill generates PPT outlines, anticipates common questions (especially data credibility, AI ethics, practical value), provides answer strategies, and simulates reviewer mode to increase passing rate for difficult stages like 中期报告 and 预答辩.
 
-本文档是 Git 仓库中的 **技能文件单元**。当前版本采用 **方案 A：先落库占位，再逐步补全文本原文**。因此，凡遇到原始技能定义未在当前上下文中完整保留之处，都会明确标注 **待补原文**，以避免把推断内容误当成正式定义。
+## Overview
 
-> 适用主题：浙江大学 MEM 论文《AI赋能下创业公司技术开发的质量管理》
-
-> 统一调用格式：`skill-name：具体请求`
-
----
-
-## 技能名称
-
-**defense-prep**
-
-## 当前状态
-
-**已加载（本轮会话已确认）**
-
-## 功能定位
-
-中期、预答辩、盲审与正式答辩准备技能。
+这是整个论文系统的答辩准备器。核心原则：针对 ZJU MEM 实践导向论文，重点防范预答辩/盲审常见风险（数据真实性、实用性不足、AI 工具使用伦理、格式不规范）。输出帮助用户自信应对 15 分钟陈述 + 专家提问，提升通过率。
 
 ## When to Use
 
-需要准备汇报、模拟提问、识别高风险答辩问题时使用。
+- 用户说“预答辩准备”、“盲审模拟”、“答辩 PPT”、“常见问题”、“模拟问答”、“答辩策略”等
+- 中期报告通过后或盲审前需要准备时
+- Orchestrator 生成报告后需要答辩把关时
+
+Do NOT use when: 只是修订正文、生成图表或 brainstorm 初始想法（此时用对应子技能）。
 
 ## Core Pattern
 
-站在导师、评委、盲审专家视角，提前暴露漏洞并制定补救方案。
+1. 确认当前阶段（中期报告后/预答辩/盲审）。
+2. 生成预答辩 PPT 提纲（15 分钟结构：研究背景、问题、方法、数据分析、成果、不足与展望）。
+3. 模拟常见问题（数据可信度、AI 伦理、实践贡献、与开题不符等）并提供简洁回答要点（客观、数据支撑、实践价值）。
+4. 输出答辩策略（时间控制、应对追问、PPT 设计建议）。
+5. 强制添加“答辩准备检查清单”（数据真实性、图表自明性、文献正规、实用性体现）。
 
-## Quick Reference
+## Quick Reference - ZJU MEM 答辩重点
 
-| 项目 | 内容 |
-|---|---|
-| 典型输入 | PPT、摘要、提纲、老师反馈、论文草稿。 |
-| 典型输出 | 高风险问题清单、模拟问答、答辩策略、补救建议。 |
-| 依赖关系 | 可与 strict-reviewer、progress-tracker 联动。 |
-| 当前备注 | 当前上下文已明确中期报告与预答辩是高风险阶段。 |
+- 预答辩需提交符合浙大规范的论文终稿、PPT（15 分钟陈述 + 提问）。
+- 常见风险：数据不真实、实用性弱、AI 使用伦理未说明、格式问题。
+- 强调：工程背景、问题导向、真实数据、成果可行可鉴、对创业公司质量管理的借鉴价值。
+- 盲审双盲：匿名提交，重点考察内容质量。
 
-## Implementation Process
+## Implementation / Process
 
-先确认当前任务是否属于 **defense-prep** 的职责范围，再检查是否存在前置技能或门禁约束。如果存在更高优先级的前置要求，例如文献核验、格式校验或答辩风险评估，应先满足前置条件，再进入本技能的主任务处理。执行过程中必须坚持实践导向、真实数据导向与学校规范导向，不得为了追求表达完整而虚构信息。
+1. 了解用户当前进度和已有材料（章节、图表、数据）。
+2. 输出 PPT 提纲（建议 10-15 页：标题、背景、文献、方法、数据、结果、讨论、展望）。
+3. 列出 8-12 个高概率问题 + 回答框架（用数据/图表支撑，避免绝对词）。
+4. 提供应对技巧（保持冷静、引用真实数据、承认局限性并提出改进）。
+5. 输出“答辩准备合规检查清单”：
+   - 是否突出实践导向和 AI 赋能价值？
+   - 数据/文献是否已验证？
+   - PPT 是否简洁自明？
+   - 是否准备好应对盲审常见挑刺？
+6. 建议调用其他技能（revision-and-proofreading、visualization-professional、progress-tracker）。
 
-## Required Sub-Skills
+## Required Background / Sub-Skills
 
-该技能当前作为 thesis Skills 体系的一部分使用。若遇到跨任务情形，应优先由 **thesis-orchestrator** 进行总控分发；若涉及文献正式使用，应优先检查 **literature-verification** 是否已完成；若涉及最终提交稿，应与 **formatting-compliance-zju** 和 **thesis-final-assembly** 联动。
+- revision-and-proofreading
+- visualization-professional（图表用于 PPT）
+- formatting-compliance-zju
+- thesis-orchestrator（可选）
 
-## Common Mistakes
+## Common Mistakes to Avoid
 
-| 常见错误 | 风险 |
-|---|---|
-| 跳过前置技能直接写结论 | 容易造成格式错误、论证断层或引用失真 |
-| 把占位内容当正式原文 | 会导致技能定义与原始版本不一致 |
-| 忽视实践导向 | 会削弱 MEM 论文的工程价值 |
-| 忽视风险提示 | 会在中期、预答辩、盲审阶段暴露问题 |
+- PPT 内容过多或过少（控制在 15 分钟）
+- 回答问题时回避弱点或缺乏数据支撑
+- 忽略 AI 伦理、数据来源可信度等 ZJU 关注点
+- 直接生成完整答辩稿而不提供问题模拟和提纲
+- 不提醒盲审双盲要求（匿名、格式严格）
+- 准备不足导致中期报告/预答辩风险高
 
 ## Examples
 
-> 调用示例：`defense-prep：请基于当前草稿执行对应任务，并严格遵循 thesis Skills 体系规则。`
+Good Example:
+用户：defense-prep：生成预答辩 PPT 提纲并模拟常见问题
+输出：PPT 结构提纲 + 10 个常见问题列表 + 每个问题的回答要点 + 检查清单 + “建议调用 visualization-professional 优化图表”。
 
-> 当前版本说明：本文件是可运行的仓库占位版，不等于此前对话中可能存在的完整原始技能文本。
+Bad Example (严格禁止):
+直接生成完整 PPT 文字或长篇答辩稿，而不先输出提纲和问题模拟。
 
 ## Testing / Self-Check
 
-在实际使用前，先自检以下三点：第一，当前任务是否确实属于本技能职责；第二，是否存在尚未完成的前置校验；第三，当前输出是否基于真实材料、真实数据与已确认规则，而不是推断性补写。
+- 是否提供清晰 PPT 提纲和问题模拟？
+- 回答要点是否客观、数据支撑、实践导向？
+- 是否覆盖 ZJU 预答辩/盲审常见风险？
+- 是否包含检查清单和子技能建议？
+- 是否绝不直接生成未经准备的完整答辩材料？
 
-## 固定底层约束
-
-| 主题 | 规则 |
-|---|---|
-| 论文主题 | AI赋能下创业公司技术开发的质量管理 |
-| 专业导向 | 浙江大学 MEM，实践导向、工程管理导向 |
-| 输出格式 | Markdown 优先，便于转 Word |
-| 文献要求 | 文献使用前必须先经 literature-verification |
-| 数据要求 | 禁止虚构数据，必须基于真实工程实践与真实数据 |
-| 图表要求 | 图注在下，表题在上，按章编号，自解释 |
-| 参考文献 | GB/T 7714—2015 |
-| 中期报告 | 必须采用固定五部分模板 |
-| 风险提示 | 中期报告和预答辩阶段必须显式提示风险 |
-
-
-## 原文恢复状态
-
-> 已加载（本轮会话已确认）。如果后续补齐历史对话中的原始技能定义，应在保留本文件结构的基础上，用原文替换当前占位说明。
+End of Skill

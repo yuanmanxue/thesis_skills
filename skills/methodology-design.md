@@ -1,89 +1,85 @@
----
+# SKILL: methodology-design
+
 name: methodology-design
-description: 研究方法与技术路线设计技能。 Use for: 需要构建研究框架、案例路径、方法论结构或技术路线图时使用。
----
 
-# Thesis Skill File
+description:
+Use when the user needs to design or select research methodology for the ZJU MEM thesis on AI-empowered quality management in startup technology development. This skill focuses on practical engineering management methods (DMAIC, PDCA, Six Sigma, system dynamics, etc.), internal comparison for selection, and ensures the chosen method fits the practical, data-driven, AI/Agent scenario. Do not write full comparison tables in the final paper.
 
-本文档是 Git 仓库中的 **技能文件单元**。当前版本采用 **方案 A：先落库占位，再逐步补全文本原文**。因此，凡遇到原始技能定义未在当前上下文中完整保留之处，都会明确标注 **待补原文**，以避免把推断内容误当成正式定义。
+## Overview
 
-> 适用主题：浙江大学 MEM 论文《AI赋能下创业公司技术开发的质量管理》
-
-> 统一调用格式：`skill-name：具体请求`
-
----
-
-## 技能名称
-
-**methodology-design**
-
-## 当前状态
-
-**待补原文**
-
-## 功能定位
-
-研究方法与技术路线设计技能。
+这是整个论文系统的方法论设计器。核心原则：实践导向，只在内部调研对比后推荐**最适合的一种方法**用于论文（不在正文中写大篇对比），强调真实数据、AI 赋能适配（Agent 架构、质量指标优化等）、浙大规范（真实数据支撑、实用性、图表自明性）。
 
 ## When to Use
 
-需要构建研究框架、案例路径、方法论结构或技术路线图时使用。
+- 用户说“方法论设计”、“研究方法”、“选择方法”、“DMAIC”、“质量管理方法”、“方法比较”等
+- 需要为中期报告、研究方案章节准备方法论时
+- Orchestrator 或其他技能要求方法支持时
+
+Do NOT use when: 只是数据分析执行或纯格式调整（此时用对应子技能）。
 
 ## Core Pattern
 
-围绕研究目标拆解问题，明确研究对象、方法、步骤、边界与局限。
+1. 明确用户当前需求（整体方法论、具体框架、方法选择）。
+2. 内部调研常见质量管理方法（DMAIC、PDCA、六西格玛、系统动力学、案例研究、混合方法等）。
+3. 基于论文主题（AI 赋能创业公司技术开发质量管理、计算机/AI/Agent 方向）进行适配性评估。
+4. 推荐**最适合的一种方法** + 简要理由（例如“推荐 DMAIC，因其 Define-Measure-Analyze-Improve-Control 闭环结构适合 AI 质量管理反馈优化”）。
+5. 输出详细实施步骤（分阶段、可与 data-analysis-guide 结合）。
+6. 生成图表输入建议（流程图、因果循环图、架构图，供 visualization-professional 使用）。
+7. 强制添加“方法论合规检查清单”（真实数据、实用性、浙大规范）。
 
-## Quick Reference
+## Quick Reference - 实践导向重点
 
-| 项目 | 内容 |
-|---|---|
-| 典型输入 | 研究目标、研究问题、案例条件、数据条件。 |
-| 典型输出 | 方法框架、技术路线、实施步骤、局限性提醒。 |
-| 依赖关系 | 可与 thesis-brainstorming、data-analysis-guide 联动。 |
-| 当前备注 | 强调工程管理逻辑与实践可执行性。 |
+- 优先 DMAIC（定义-测量-分析-改进-控制），适合质量管理闭环和 AI 干预效果评估。
+- PDCA（计划-执行-检查-行动）作为补充或备选。
+- Six Sigma 工具（Pareto、鱼骨图、控制图）可嵌入。
+- 方法必须支持真实企业数据和 AI Agent 场景。
+- 输出支持 ZJU 中期报告要求（研究方法、技术路线、可行性分析）。
 
-## Implementation Process
+## Implementation / Process
 
-先确认当前任务是否属于 **methodology-design** 的职责范围，再检查是否存在前置技能或门禁约束。如果存在更高优先级的前置要求，例如文献核验、格式校验或答辩风险评估，应先满足前置条件，再进入本技能的主任务处理。执行过程中必须坚持实践导向、真实数据导向与学校规范导向，不得为了追求表达完整而虚构信息。
+1. 确认当前阶段和已有内容（数据、文献等）。
+2. 列出 2-4 种候选方法 + 内部简要适配评估（不在输出中展开大对比）。
+3. 推荐一种最佳方法 + 详细理由（绑定创业公司场景、AI 赋能特点）。
+4. 输出分步实施指南 + 与数据分析的结合点。
+5. 提供图表/流程建议（Mermaid 或 Python 输入）。
+6. 输出“方法论合规检查清单”：
+   - 是否只推荐一种方法？
+   - 是否强调真实数据和实用性？
+   - 是否准备好与 visualization-professional 结合？
+7. 建议调用其他技能（data-analysis-guide 执行、formatting-compliance-zju 格式化）。
 
-## Required Sub-Skills
+## Required Background / Sub-Skills
 
-该技能当前作为 thesis Skills 体系的一部分使用。若遇到跨任务情形，应优先由 **thesis-orchestrator** 进行总控分发；若涉及文献正式使用，应优先检查 **literature-verification** 是否已完成；若涉及最终提交稿，应与 **formatting-compliance-zju** 和 **thesis-final-assembly** 联动。
+- literature-verification（方法相关文献）
+- data-analysis-guide（数据支撑）
+- visualization-professional（流程/架构图）
+- formatting-compliance-zju（最终输出）
+- thesis-orchestrator（可选）
 
-## Common Mistakes
+## Common Mistakes to Avoid
 
-| 常见错误 | 风险 |
-|---|---|
-| 跳过前置技能直接写结论 | 容易造成格式错误、论证断层或引用失真 |
-| 把占位内容当正式原文 | 会导致技能定义与原始版本不一致 |
-| 忽视实践导向 | 会削弱 MEM 论文的工程价值 |
-| 忽视风险提示 | 会在中期、预答辩、盲审阶段暴露问题 |
+- 在论文正文中写大篇方法对比表格（只内部选择）
+- 推荐方法与 AI 赋能创业公司质量管理场景脱节
+- 忽略真实数据可行性和工作量要求
+- 生成泛化方法而不提供具体步骤
+- 无图表输入建议或不提醒浙大自明性
+- 直接写论文正文方法论内容而不走选择过程
 
 ## Examples
 
-> 调用示例：`methodology-design：请基于当前草稿执行对应任务，并严格遵循 thesis Skills 体系规则。`
+Good Example:
+用户：methodology-design：为质量管理选择最适合的研究方法
+输出：内部评估 + 推荐 DMAIC + 详细步骤 + 图表建议 + 合规检查清单。
 
-> 当前版本说明：本文件是可运行的仓库占位版，不等于此前对话中可能存在的完整原始技能文本。
+Bad Example (严格禁止):
+直接输出“本研究采用 DMAIC 和 PDCA 对比……” 而没有内部选择过程和推荐理由。
 
 ## Testing / Self-Check
 
-在实际使用前，先自检以下三点：第一，当前任务是否确实属于本技能职责；第二，是否存在尚未完成的前置校验；第三，当前输出是否基于真实材料、真实数据与已确认规则，而不是推断性补写。
+- 是否只推荐一种方法并说明理由？
+- 是否提供清晰实施步骤和图表输入？
+- 是否强调实践导向、AI/Agent 适配和真实数据？
+- 是否包含合规检查清单和子技能建议？
+- 是否绝不直接写论文正文内容？
 
-## 固定底层约束
-
-| 主题 | 规则 |
-|---|---|
-| 论文主题 | AI赋能下创业公司技术开发的质量管理 |
-| 专业导向 | 浙江大学 MEM，实践导向、工程管理导向 |
-| 输出格式 | Markdown 优先，便于转 Word |
-| 文献要求 | 文献使用前必须先经 literature-verification |
-| 数据要求 | 禁止虚构数据，必须基于真实工程实践与真实数据 |
-| 图表要求 | 图注在下，表题在上，按章编号，自解释 |
-| 参考文献 | GB/T 7714—2015 |
-| 中期报告 | 必须采用固定五部分模板 |
-| 风险提示 | 中期报告和预答辩阶段必须显式提示风险 |
-
-
-## 原文恢复状态
-
-> 待补原文。如果后续补齐历史对话中的原始技能定义，应在保留本文件结构的基础上，用原文替换当前占位说明。
+End of Skill

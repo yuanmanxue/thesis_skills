@@ -1,89 +1,83 @@
----
+# SKILL: data-analysis-guide
+
 name: data-analysis-guide
-description: 数据分析路径与方法指导技能。 Use for: 需要设计指标、处理数据、解释结果或选择分析方法时使用。
----
 
-# Thesis Skill File
+description:
+Use when the user needs guidance on data collection, cleaning, calculation, statistical analysis, or method selection for the ZJU MEM thesis on AI-empowered quality management in startup technology development. This skill focuses on practical engineering management data handling, method comparison/selection (not writing full comparison tables in paper), and ensures real data + ZJU formatting compliance.
 
-本文档是 Git 仓库中的 **技能文件单元**。当前版本采用 **方案 A：先落库占位，再逐步补全文本原文**。因此，凡遇到原始技能定义未在当前上下文中完整保留之处，都会明确标注 **待补原文**，以避免把推断内容误当成正式定义。
+## Overview
 
-> 适用主题：浙江大学 MEM 论文《AI赋能下创业公司技术开发的质量管理》
-
-> 统一调用格式：`skill-name：具体请求`
-
----
-
-## 技能名称
-
-**data-analysis-guide**
-
-## 当前状态
-
-**待补原文**
-
-## 功能定位
-
-数据分析路径与方法指导技能。
+这是整个论文系统的数据分析指导器。核心原则：强调实践导向（真实企业数据、AI Agent 应用场景）、方法选择（DMAIC、PDCA、六西格玛、系统动力学等质量管理常用方法），只选最适合的一种用于论文。所有步骤必须支持真实数据计算、统计分析，并生成可用于 visualization-professional 的图表输入。
 
 ## When to Use
 
-需要设计指标、处理数据、解释结果或选择分析方法时使用。
+- 用户说“数据分析”、“数据清洗”、“统计计算”、“方法选择”、“DMAIC”、“质量管理方法”等
+- 需要为中期报告、结果章节准备数据处理流程时
+- Orchestrator 或其他技能要求数据支持时
+
+Do NOT use when: 只是文献检索或纯格式调整（此时用对应子技能）。
 
 ## Core Pattern
 
-先确认研究问题，再匹配变量与数据，再选择分析方法并明确解释边界。
+1. 明确当前数据需求（收集、清洗、计算、统计、方法选择）。
+2. 提供分步指导：
+   - 数据收集：调研问卷、企业日志、AI 系统日志、质量指标等真实来源。
+   - 数据清洗：缺失值处理、异常值检测、标准化（适合 AI/Agent 数据）。
+   - 计算与统计：描述性统计、假设检验、回归分析、AI 模型评价指标（准确率、召回率、F1 等）。
+   - 方法选择：调研常见质量管理方法（DMAIC、PDCA、六西格玛、系统动力学等），内部对比后推荐最适合的一种（理由基于创业公司场景、AI 赋能特点），不在正文中写大篇对比。
+3. 输出可执行步骤 + Python 代码片段（numpy/pandas/statsmodels 等，用户可直接运行）。
+4. 生成图表输入建议（供 visualization-professional 调用：架构图、流程图、因果循环图、雷达图等）。
+5. 强制添加“真实数据验证提醒”和“浙大图表自明性检查”。
 
-## Quick Reference
+## Quick Reference - 实践导向重点
 
-| 项目 | 内容 |
-|---|---|
-| 典型输入 | 数据集、变量定义、研究问题、拟采用分析方法。 |
-| 典型输出 | 分析思路、方法建议、结果解读框架、风险说明。 |
-| 依赖关系 | 可与 methodology-design、discussion-interpretation 联动。 |
-| 当前备注 | 必须坚持真实数据、真实工程背景和实践导向。 |
+- 优先真实企业/模拟数据（创业公司技术开发质量指标：缺陷率、交付周期、AI 干预效果等）。
+- 方法选择原则：简单可行、数据支撑强、AI 赋能适配。
+- 输出必须支持 ZJU 规范：图表自明性（编号+图题下方）、真实数据可靠。
 
-## Implementation Process
+## Implementation / Process
 
-先确认当前任务是否属于 **data-analysis-guide** 的职责范围，再检查是否存在前置技能或门禁约束。如果存在更高优先级的前置要求，例如文献核验、格式校验或答辩风险评估，应先满足前置条件，再进入本技能的主任务处理。执行过程中必须坚持实践导向、真实数据导向与学校规范导向，不得为了追求表达完整而虚构信息。
+1. 确认用户当前阶段和已有数据（问卷、日志、AI 输出等）。
+2. 分模块输出指导（收集 → 清洗 → 计算 → 统计 → 方法推荐）。
+3. 提供最小化 Python 代码示例（清洗、统计、简单可视化）。
+4. 推荐最适合方法 + 简要理由（例如“推荐 DMAIC，因其 Define-Measure-Analyze-Improve-Control 结构适合 AI 质量管理闭环”）。
+5. 输出“数据分析合规检查清单”：
+   - 数据是否真实可验证？
+   - 方法是否已选定（不在正文对比）？
+   - 图表输入是否准备好自明性？
+6. 建议调用其他技能（visualization-professional 生成图表、formatting-compliance-zju 格式化）。
 
-## Required Sub-Skills
+## Required Background / Sub-Skills
 
-该技能当前作为 thesis Skills 体系的一部分使用。若遇到跨任务情形，应优先由 **thesis-orchestrator** 进行总控分发；若涉及文献正式使用，应优先检查 **literature-verification** 是否已完成；若涉及最终提交稿，应与 **formatting-compliance-zju** 和 **thesis-final-assembly** 联动。
+- literature-verification（方法相关文献）
+- visualization-professional（图表）
+- formatting-compliance-zju（最终输出）
+- thesis-orchestrator（可选）
 
-## Common Mistakes
+## Common Mistakes to Avoid
 
-| 常见错误 | 风险 |
-|---|---|
-| 跳过前置技能直接写结论 | 容易造成格式错误、论证断层或引用失真 |
-| 把占位内容当正式原文 | 会导致技能定义与原始版本不一致 |
-| 忽视实践导向 | 会削弱 MEM 论文的工程价值 |
-| 忽视风险提示 | 会在中期、预答辩、盲审阶段暴露问题 |
+- 直接编造不存在的数据或结果
+- 在论文正文中写大篇方法对比表格（只内部选择）
+- 忽略真实数据来源和验证
+- 生成泛化步骤而不绑定 AI 赋能创业公司质量管理场景
+- 无 Python 代码或图表输入建议
+- 不提醒浙大自明性要求
 
 ## Examples
 
-> 调用示例：`data-analysis-guide：请基于当前草稿执行对应任务，并严格遵循 thesis Skills 体系规则。`
+Good Example:
+用户：data-analysis-guide：为质量管理生成数据分析步骤和方法选择
+输出：分步指导 + DMAIC 推荐理由 + Python 清洗代码片段 + 图表输入建议 + 合规检查清单。
 
-> 当前版本说明：本文件是可运行的仓库占位版，不等于此前对话中可能存在的完整原始技能文本。
+Bad Example (严格禁止):
+直接输出“数据分析结果显示 AI 提升了 30%质量……” 而没有步骤、验证和方法选择过程。
 
 ## Testing / Self-Check
 
-在实际使用前，先自检以下三点：第一，当前任务是否确实属于本技能职责；第二，是否存在尚未完成的前置校验；第三，当前输出是否基于真实材料、真实数据与已确认规则，而不是推断性补写。
+- 是否提供清晰分步指导和代码？
+- 方法是否只推荐一种并说明理由？
+- 是否强调真实数据和实践导向？
+- 是否包含浙大图表自明性检查和子技能建议？
+- 是否绝不直接写论文正文结果？
 
-## 固定底层约束
-
-| 主题 | 规则 |
-|---|---|
-| 论文主题 | AI赋能下创业公司技术开发的质量管理 |
-| 专业导向 | 浙江大学 MEM，实践导向、工程管理导向 |
-| 输出格式 | Markdown 优先，便于转 Word |
-| 文献要求 | 文献使用前必须先经 literature-verification |
-| 数据要求 | 禁止虚构数据，必须基于真实工程实践与真实数据 |
-| 图表要求 | 图注在下，表题在上，按章编号，自解释 |
-| 参考文献 | GB/T 7714—2015 |
-| 中期报告 | 必须采用固定五部分模板 |
-| 风险提示 | 中期报告和预答辩阶段必须显式提示风险 |
-
-
-## 原文恢复状态
-
-> 待补原文。如果后续补齐历史对话中的原始技能定义，应在保留本文件结构的基础上，用原文替换当前占位说明。
+End of Skill

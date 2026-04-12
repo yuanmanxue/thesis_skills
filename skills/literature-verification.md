@@ -1,89 +1,68 @@
----
+# SKILL: literature-verification
+
 name: literature-verification
-description: 文献真实性与可用性核验技能。 Use for: 任何文献、观点、DOI、作者信息、摘要信息进入正文、综述、方法依据或讨论之前使用。
----
 
-# Thesis Skill File
+description:
+Use when the user or any other thesis skill needs to cite literature for the ZJU MEM thesis on "AI 赋能下创业公司技术开发的质量管理". This skill MUST be called before any literature is used in brainstorming, outlining, writing, or reporting. It ensures ONLY real, formally published literature from credible platforms (知网、万方、维普、CSSCI、北大核心、IEEE、ACM、Google Scholar with verifiable DOI/link) is accepted. Never allow fabricated or "可能存在" references.
 
-本文档是 Git 仓库中的 **技能文件单元**。当前版本采用 **方案 A：先落库占位，再逐步补全文本原文**。因此，凡遇到原始技能定义未在当前上下文中完整保留之处，都会明确标注 **待补原文**，以避免把推断内容误当成正式定义。
+## Overview
 
-> 适用主题：浙江大学 MEM 论文《AI赋能下创业公司技术开发的质量管理》
-
-> 统一调用格式：`skill-name：具体请求`
-
----
-
-## 技能名称
-
-**literature-verification**
-
-## 当前状态
-
-**待补原文**
-
-## 功能定位
-
-文献真实性与可用性核验技能。
+这是整个论文系统的文献防幻觉防御墙。核心原则：零容忍幻觉 —— 所有文献必须可验证为真实发表的正式文献。输出时强制要求用户手动确认来源链接/DOI 后才能继续使用。
 
 ## When to Use
 
-任何文献、观点、DOI、作者信息、摘要信息进入正文、综述、方法依据或讨论之前使用。
+- 任何需要添加文献、文献综述、参考文献列表、国内外研究现状时
+- Orchestrator 或其他技能请求文献支持时
+- 用户说“找文献”、“引用 XX”、“文献综述”、“研究现状”等
+
+Do NOT use when: 只是 brainstorm 想法而不需要具体引用。
 
 ## Core Pattern
 
-先核对文献元数据，再核对来源可信度，再核对与研究主题的适配性；未经核验不得正式引用。
+1. 生成精准搜索关键词（基于论文主题）。
+2. 输出可验证列表：每条文献必须包含标题、作者、发表年份、期刊/会议/来源平台、DOI 或可访问链接。
+3. 强制验证检查点：列出“用户手动验证清单”，只有用户确认后才允许使用。
+4. 同时输出 GB/T 7714 格式。
+5. 优先近期、高影响力、与 AI 赋能质量管理相关的正式发表文献。
 
 ## Quick Reference
 
-| 项目 | 内容 |
-|---|---|
-| 典型输入 | 题名、作者、年份、DOI、摘要、拟引用内容。 |
-| 典型输出 | 可用性判断、风险说明、待人工确认点。 |
-| 依赖关系 | 可与 citation-management 联动。 |
-| 当前备注 | 这是整套 thesis Skills 中最关键的反幻觉门禁之一。 |
+- 允许来源：知网、万方、维普、CSSCI、北大核心、IEEE Xplore、ACM Digital Library 等。
+- 禁止：任何“可能存在”或未提供链接的文献。
 
-## Implementation Process
+## Implementation / Process
 
-先确认当前任务是否属于 **literature-verification** 的职责范围，再检查是否存在前置技能或门禁约束。如果存在更高优先级的前置要求，例如文献核验、格式校验或答辩风险评估，应先满足前置条件，再进入本技能的主任务处理。执行过程中必须坚持实践导向、真实数据导向与学校规范导向，不得为了追求表达完整而虚构信息。
+1. 提取用户当前具体需求。
+2. 生成 5-10 个精准搜索关键词。
+3. 提供 8-15 条候选文献（每条带 DOI/链接 + 相关性说明）。
+4. 必须输出醒目的【用户手动验证清单】。
+5. 只有用户回复“已确认”后，才允许后续技能使用这些文献。
+6. 记录到 Orchestrator。
 
-## Required Sub-Skills
+## Required Background / Sub-Skills
 
-该技能当前作为 thesis Skills 体系的一部分使用。若遇到跨任务情形，应优先由 **thesis-orchestrator** 进行总控分发；若涉及文献正式使用，应优先检查 **literature-verification** 是否已完成；若涉及最终提交稿，应与 **formatting-compliance-zju** 和 **thesis-final-assembly** 联动。
+- thesis-orchestrator（可选）
 
-## Common Mistakes
+## Common Mistakes to Avoid
 
-| 常见错误 | 风险 |
-|---|---|
-| 跳过前置技能直接写结论 | 容易造成格式错误、论证断层或引用失真 |
-| 把占位内容当正式原文 | 会导致技能定义与原始版本不一致 |
-| 忽视实践导向 | 会削弱 MEM 论文的工程价值 |
-| 忽视风险提示 | 会在中期、预答辩、盲审阶段暴露问题 |
+- 生成不存在的文献
+- 只给标题不给链接
+- 跳过用户验证步骤
+- 文献与主题无关
 
 ## Examples
 
-> 调用示例：`literature-verification：请基于当前草稿执行对应任务，并严格遵循 thesis Skills 体系规则。`
+**Good Example**:
+输出带 DOI/链接的候选文献 + 详细验证清单 + GB/T 7714 格式 + 相关性说明，并要求用户确认。
 
-> 当前版本说明：本文件是可运行的仓库占位版，不等于此前对话中可能存在的完整原始技能文本。
+**Bad Example (严格禁止)**:
+直接输出“根据某论文……” 而没有来源和验证步骤。
 
 ## Testing / Self-Check
 
-在实际使用前，先自检以下三点：第一，当前任务是否确实属于本技能职责；第二，是否存在尚未完成的前置校验；第三，当前输出是否基于真实材料、真实数据与已确认规则，而不是推断性补写。
+- 每条文献是否有可验证链接/DOI？
+- 是否强制包含用户手动验证检查点？
+- 是否符合 GB/T 7714 格式？
+- 是否与主题紧密相关？
 
-## 固定底层约束
-
-| 主题 | 规则 |
-|---|---|
-| 论文主题 | AI赋能下创业公司技术开发的质量管理 |
-| 专业导向 | 浙江大学 MEM，实践导向、工程管理导向 |
-| 输出格式 | Markdown 优先，便于转 Word |
-| 文献要求 | 文献使用前必须先经 literature-verification |
-| 数据要求 | 禁止虚构数据，必须基于真实工程实践与真实数据 |
-| 图表要求 | 图注在下，表题在上，按章编号，自解释 |
-| 参考文献 | GB/T 7714—2015 |
-| 中期报告 | 必须采用固定五部分模板 |
-| 风险提示 | 中期报告和预答辩阶段必须显式提示风险 |
-
-
-## 原文恢复状态
-
-> 待补原文。如果后续补齐历史对话中的原始技能定义，应在保留本文件结构的基础上，用原文替换当前占位说明。
+End of Skill

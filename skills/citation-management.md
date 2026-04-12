@@ -1,89 +1,77 @@
----
+# SKILL: citation-management
+
 name: citation-management
-description: 参考文献组织与 GB/T 7714—2015 管理技能。 Use for: 需要整理参考文献、统一格式、检查正文引文与文后列表一致性时使用。
----
 
-# Thesis Skill File
+description:
+Use when the user or orchestrator needs to manage, format, deduplicate, sort, or export the reference list for the ZJU MEM thesis. This skill works ONLY with literature already verified by literature-verification. It generates complete GB/T 7714 reference lists, supports Word/EndNote/BibTeX export, and keeps the literature library synchronized with thesis-orchestrator.
 
-本文档是 Git 仓库中的 **技能文件单元**。当前版本采用 **方案 A：先落库占位，再逐步补全文本原文**。因此，凡遇到原始技能定义未在当前上下文中完整保留之处，都会明确标注 **待补原文**，以避免把推断内容误当成正式定义。
+## Overview
 
-> 适用主题：浙江大学 MEM 论文《AI赋能下创业公司技术开发的质量管理》
-
-> 统一调用格式：`skill-name：具体请求`
-
----
-
-## 技能名称
-
-**citation-management**
-
-## 当前状态
-
-**待补原文**
-
-## 功能定位
-
-参考文献组织与 GB/T 7714—2015 管理技能。
+这是整个论文系统的参考文献管理器。核心原则：零幻觉、统一格式、实时同步。所有文献必须来自 literature-verification 的已验证列表，自动生成 GB/T 7714-2015 标准格式（顺序编码制），支持去重、按年份/作者排序，并输出可直接复制到 Word 或 EndNote 的完整参考文献部分。
 
 ## When to Use
 
-需要整理参考文献、统一格式、检查正文引文与文后列表一致性时使用。
+- 用户说“参考文献列表”、“生成引用”、“GB/T 7714”、“文献去重”、“导出参考文献”等
+- Orchestrator 生成报告或 final-assembly 时需要引用列表
+- literature-verification 验证新文献后需要更新总列表
+
+Do NOT use when: 需要检索或验证新文献（此时必须先调用 literature-verification）。
 
 ## Core Pattern
 
-先核对条目完整性，再统一著录格式，再检查正文引用映射关系。
+1. 从 literature-verification 获取当前已验证文献列表。
+2. 执行管理操作：去重、排序（默认按出现顺序或作者-年份）、编号。
+3. 生成完整参考文献列表（GB/T 7714 格式）。
+4. 提供多种导出格式：纯文本（Word 直接复制）、BibTeX、EndNote XML。
+5. 与 thesis-orchestrator 同步更新论文的文献库状态。
+6. 强制输出“文献管理合规检查清单”（来源是否全部已验证？数量是否满足 ZJU MEM 要求？格式是否统一？）。
 
-## Quick Reference
+## Quick Reference - ZJU MEM 引用规范
 
-| 项目 | 内容 |
-|---|---|
-| 典型输入 | 文献条目、引用位置、样式要求。 |
-| 典型输出 | 参考文献表、格式修正建议、缺失字段提醒。 |
-| 依赖关系 | 强依赖 literature-verification。 |
-| 当前备注 | 只负责管理与格式，不代替文献真实性核验。 |
+- 严格 GB/T 7714-2015（顺序编码制，全文统一编号）。
+- 每条文献必须有可验证 DOI 或链接（来自 literature-verification）。
+- 参考文献放在论文末尾，按正文中出现顺序编号。
+- 优先正式发表文献（知网、万方、IEEE、ACM 等），数量建议 ≥30 篇。
 
-## Implementation Process
+## Implementation / Process
 
-先确认当前任务是否属于 **citation-management** 的职责范围，再检查是否存在前置技能或门禁约束。如果存在更高优先级的前置要求，例如文献核验、格式校验或答辩风险评估，应先满足前置条件，再进入本技能的主任务处理。执行过程中必须坚持实践导向、真实数据导向与学校规范导向，不得为了追求表达完整而虚构信息。
+1. 接收用户需求（生成列表、去重、排序、导出等）。
+2. 拉取 literature-verification 的已验证文献。
+3. 执行去重 + 排序。
+4. 输出完整编号后的 GB/T 7714 列表（Markdown 格式，便于转 Word）。
+5. 提供导出代码块（直接复制）。
+6. 输出“合规检查清单”并同步更新 orchestrator 的文献状态。
+7. 结束时询问是否需要调用其他技能（e.g. revision-and-proofreading 检查引用正确性）。
 
-## Required Sub-Skills
+## Required Background / Sub-Skills
 
-该技能当前作为 thesis Skills 体系的一部分使用。若遇到跨任务情形，应优先由 **thesis-orchestrator** 进行总控分发；若涉及文献正式使用，应优先检查 **literature-verification** 是否已完成；若涉及最终提交稿，应与 **formatting-compliance-zju** 和 **thesis-final-assembly** 联动。
+- literature-verification（必须，所有文献来源）
+- thesis-orchestrator（同步状态）
+- formatting-compliance-zju（最终插入论文）
 
-## Common Mistakes
+## Common Mistakes to Avoid
 
-| 常见错误 | 风险 |
-|---|---|
-| 跳过前置技能直接写结论 | 容易造成格式错误、论证断层或引用失真 |
-| 把占位内容当正式原文 | 会导致技能定义与原始版本不一致 |
-| 忽视实践导向 | 会削弱 MEM 论文的工程价值 |
-| 忽视风险提示 | 会在中期、预答辩、盲审阶段暴露问题 |
+- 使用未经 literature-verification 验证的文献
+- 引用格式不统一或缺少 DOI/链接
+- 直接编造新文献
+- 不去重或排序混乱
+- 输出不包含合规检查清单
 
 ## Examples
 
-> 调用示例：`citation-management：请基于当前草稿执行对应任务，并严格遵循 thesis Skills 体系规则。`
+Good Example:
+用户：citation-management：生成当前已验证文献的完整 GB/T 7714 列表
+输出：完整编号列表 + 去重说明 + 导出格式 + 检查清单。
 
-> 当前版本说明：本文件是可运行的仓库占位版，不等于此前对话中可能存在的完整原始技能文本。
+Bad Example (严格禁止):
+直接生成参考文献而不说明来源是否已验证，或编造新文献。
 
 ## Testing / Self-Check
 
-在实际使用前，先自检以下三点：第一，当前任务是否确实属于本技能职责；第二，是否存在尚未完成的前置校验；第三，当前输出是否基于真实材料、真实数据与已确认规则，而不是推断性补写。
+- 是否所有文献均来自 literature-verification 已验证列表？
+- GB/T 7714 格式是否正确？
+- 是否有去重和排序？
+- 是否包含合规检查清单和导出格式？
+- 是否绝不直接生成未经验证的文献？
 
-## 固定底层约束
-
-| 主题 | 规则 |
-|---|---|
-| 论文主题 | AI赋能下创业公司技术开发的质量管理 |
-| 专业导向 | 浙江大学 MEM，实践导向、工程管理导向 |
-| 输出格式 | Markdown 优先，便于转 Word |
-| 文献要求 | 文献使用前必须先经 literature-verification |
-| 数据要求 | 禁止虚构数据，必须基于真实工程实践与真实数据 |
-| 图表要求 | 图注在下，表题在上，按章编号，自解释 |
-| 参考文献 | GB/T 7714—2015 |
-| 中期报告 | 必须采用固定五部分模板 |
-| 风险提示 | 中期报告和预答辩阶段必须显式提示风险 |
-
-
-## 原文恢复状态
-
-> 待补原文。如果后续补齐历史对话中的原始技能定义，应在保留本文件结构的基础上，用原文替换当前占位说明。
+End of Skill

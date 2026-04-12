@@ -1,89 +1,90 @@
----
+# SKILL: revision-and-proofreading
+
 name: revision-and-proofreading
-description: 修订、润色、校对与问题闭环技能。 Use for: 已有草稿后，需要系统修订、消除错漏、闭环导师意见时使用。
----
 
-# Thesis Skill File
+description:
+Use when the user needs to revise, polish, proofread, simulate peer/blind review, or integrate feedback for the ZJU MEM thesis. This skill focuses on multi-round revision, plagiarism simulation (查重意识), strict reviewer mode (模拟预答辩/盲审挑刺), and ensures compliance with ZJU rules, practical orientation, and high passing rate for 中期报告 and 预答辩.
 
-本文档是 Git 仓库中的 **技能文件单元**。当前版本采用 **方案 A：先落库占位，再逐步补全文本原文**。因此，凡遇到原始技能定义未在当前上下文中完整保留之处，都会明确标注 **待补原文**，以避免把推断内容误当成正式定义。
+## Overview
 
-> 适用主题：浙江大学 MEM 论文《AI赋能下创业公司技术开发的质量管理》
-
-> 统一调用格式：`skill-name：具体请求`
-
----
-
-## 技能名称
-
-**revision-and-proofreading**
-
-## 当前状态
-
-**已加载（本轮会话已确认）**
-
-## 功能定位
-
-修订、润色、校对与问题闭环技能。
+这是整个论文系统的修订与校对器。核心原则：多轮迭代、严格挑刺、提升通过率。特别针对 ZJU MEM 实践导向论文：检查实用性、数据真实性、逻辑严谨性、格式规范性，避免幻觉和低级错误。支持盲审模拟（双盲思维）。
 
 ## When to Use
 
-已有草稿后，需要系统修订、消除错漏、闭环导师意见时使用。
+- 用户说“修订”、“校对”、“改错”、“模拟盲审”、“查重模拟”、“整合反馈”、“挑刺”等
+- 任何章节或报告草稿完成后需要优化时
+- 准备中期报告、预答辩、盲审材料时
+- Orchestrator 生成内容后需要最终把关时
+
+Do NOT use when: 只是 brainstorm 初始想法、生成新内容或格式调整（此时用对应子技能）。
 
 ## Core Pattern
 
-先建立问题清单，再逐项修复语言、逻辑、术语、衔接和格式问题。
+1. 接收用户提供的原文或具体段落/章节。
+2. 分层检查：
+   - 内容层面：逻辑漏洞、数据真实性、实用性不足、与主题脱节
+   - 学术规范：口语/绝对词、文献幻觉、论证不严谨
+   - 格式层面：浙大模板结构、图表自明性、GB/T 7714、字数要求
+   - 盲审/预答辩风险：常见问题（数据可信度、AI 使用伦理、实践贡献）
+3. 输出结构化修订报告：
+   - 问题清单（按严重程度分类：致命/重要/建议）
+   - 具体修改建议（逐点）
+   - 改写示例（仅针对问题点，不重写整章）
+   - 查重模拟意识提醒（避免大段 AI 生成句式）
+4. 提供修订版本（仅修改部分） + 整体通过率预估。
+5. 强制添加“修订合规检查清单”和“下一步建议”（调用其他子技能）。
 
-## Quick Reference
+## Quick Reference - ZJU MEM 修订重点
 
-| 项目 | 内容 |
-|---|---|
-| 典型输入 | 草稿、审稿意见、待修问题清单。 |
-| 典型输出 | 修订稿、修改对照表、遗留问题说明。 |
-| 依赖关系 | 可与 academic-writing-style、strict-reviewer 联动。 |
-| 当前备注 | 关注的是修订执行与质量闭环，而不是单纯风格优化。 |
+- 中期报告必须真实反映已完成工作，重点第 1-2 章 + 三级目录
+- 预答辩/盲审常见风险：数据不真实、实用性弱、格式不规范、文献不正规
+- 工作量要求：≥200 小时，主体工作独立完成
+- 最终输出必须严谨、实用、可行可鉴
 
-## Implementation Process
+## Implementation / Process
 
-先确认当前任务是否属于 **revision-and-proofreading** 的职责范围，再检查是否存在前置技能或门禁约束。如果存在更高优先级的前置要求，例如文献核验、格式校验或答辩风险评估，应先满足前置条件，再进入本技能的主任务处理。执行过程中必须坚持实践导向、真实数据导向与学校规范导向，不得为了追求表达完整而虚构信息。
+1. 确认用户提供的具体内容和修订目标（中期报告/某章/整体）。
+2. 执行多维度检查（内容、规范、风险）。
+3. 输出问题清单 + 修改建议 + 示例。
+4. 给出修订后局部版本（只改问题点）。
+5. 输出“修订自查清单”：
+   - 逻辑是否严谨？
+   - 数据/文献是否已验证？
+   - 格式是否符合浙大模板？
+   - 是否降低盲审/预答辩风险？
+6. 建议调用其他技能（formatting-compliance-zju、academic-writing-style、progress-tracker 等）。
 
-## Required Sub-Skills
+## Required Background / Sub-Skills
 
-该技能当前作为 thesis Skills 体系的一部分使用。若遇到跨任务情形，应优先由 **thesis-orchestrator** 进行总控分发；若涉及文献正式使用，应优先检查 **literature-verification** 是否已完成；若涉及最终提交稿，应与 **formatting-compliance-zju** 和 **thesis-final-assembly** 联动。
+- formatting-compliance-zju
+- academic-writing-style
+- literature-verification
+- thesis-orchestrator（可选）
 
-## Common Mistakes
+## Common Mistakes to Avoid
 
-| 常见错误 | 风险 |
-|---|---|
-| 跳过前置技能直接写结论 | 容易造成格式错误、论证断层或引用失真 |
-| 把占位内容当正式原文 | 会导致技能定义与原始版本不一致 |
-| 忽视实践导向 | 会削弱 MEM 论文的工程价值 |
-| 忽视风险提示 | 会在中期、预答辩、盲审阶段暴露问题 |
+- 直接大规模重写整章而不列问题清单
+- 忽略盲审/预答辩挑刺点（数据可信度、AI 伦理）
+- 不提醒查重风险（大段 AI 句式）
+- 输出过于温和而不严格
+- 修改后仍保留原问题
+- 直接生成新内容而不基于用户原文
 
 ## Examples
 
-> 调用示例：`revision-and-proofreading：请基于当前草稿执行对应任务，并严格遵循 thesis Skills 体系规则。`
+Good Example:
+用户：revision-and-proofreading：修订这段中期报告第 2 节
+输出：问题清单（3 个致命问题、2 个建议） + 具体修改点 + 局部改写示例 + 自查清单 + “建议调用 formatting-compliance-zju 进一步格式化”。
 
-> 当前版本说明：本文件是可运行的仓库占位版，不等于此前对话中可能存在的完整原始技能文本。
+Bad Example (严格禁止):
+直接重写整段文字而不输出问题分析和检查清单。
 
 ## Testing / Self-Check
 
-在实际使用前，先自检以下三点：第一，当前任务是否确实属于本技能职责；第二，是否存在尚未完成的前置校验；第三，当前输出是否基于真实材料、真实数据与已确认规则，而不是推断性补写。
+- 是否先输出问题清单而非直接重写？
+- 检查是否覆盖内容、规范、盲审风险？
+- 修改建议是否具体可操作？
+- 是否包含自查清单和子技能推荐？
+- 是否绝不直接生成全新大段内容？
 
-## 固定底层约束
-
-| 主题 | 规则 |
-|---|---|
-| 论文主题 | AI赋能下创业公司技术开发的质量管理 |
-| 专业导向 | 浙江大学 MEM，实践导向、工程管理导向 |
-| 输出格式 | Markdown 优先，便于转 Word |
-| 文献要求 | 文献使用前必须先经 literature-verification |
-| 数据要求 | 禁止虚构数据，必须基于真实工程实践与真实数据 |
-| 图表要求 | 图注在下，表题在上，按章编号，自解释 |
-| 参考文献 | GB/T 7714—2015 |
-| 中期报告 | 必须采用固定五部分模板 |
-| 风险提示 | 中期报告和预答辩阶段必须显式提示风险 |
-
-
-## 原文恢复状态
-
-> 已加载（本轮会话已确认）。如果后续补齐历史对话中的原始技能定义，应在保留本文件结构的基础上，用原文替换当前占位说明。
+End of Skill

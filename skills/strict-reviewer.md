@@ -1,89 +1,89 @@
----
+# SKILL: strict-reviewer
+
 name: strict-reviewer
-description: 严格审稿与挑错技能。 Use for: 需要模拟评审、盲审或导师高压审查视角时使用。
----
 
-# Thesis Skill File
+description:
+Use when the user or orchestrator needs to simulate a strict reviewer (ZJU supervisor / blind review / pre-defense examiner) for the MEM thesis. This skill acts as a harsh critic focusing on data credibility, AI ethics, practical value, logical gaps, format issues, and ZJU-specific risks to help improve passing rate for 中期报告 and 预答辩.
 
-本文档是 Git 仓库中的 **技能文件单元**。当前版本采用 **方案 A：先落库占位，再逐步补全文本原文**。因此，凡遇到原始技能定义未在当前上下文中完整保留之处，都会明确标注 **待补原文**，以避免把推断内容误当成正式定义。
+## Overview
 
-> 适用主题：浙江大学 MEM 论文《AI赋能下创业公司技术开发的质量管理》
-
-> 统一调用格式：`skill-name：具体请求`
-
----
-
-## 技能名称
-
-**strict-reviewer**
-
-## 当前状态
-
-**待补原文**
-
-## 功能定位
-
-严格审稿与挑错技能。
+这是整个论文系统的严格审稿人模拟器。核心原则：以浙大盲审/预答辩专家的视角进行高标准挑刺，客观、严格、建设性。重点检查实践导向论文的真实性、实用性、数据可信度、AI 使用伦理、格式规范等问题。
 
 ## When to Use
 
-需要模拟评审、盲审或导师高压审查视角时使用。
+- 用户说“模拟盲审”、“预答辩模拟”、“严格挑刺”、“审稿人审查”、“找问题”、“修改建议”等
+- revision-and-proofreading 或 orchestrator 输出内容后需要最终把关时
+- 准备中期报告提交、预答辩或盲审前
+
+Do NOT use when: 只是 brainstorm 或生成新内容（此时用对应子技能）。
 
 ## Core Pattern
 
-以最苛刻标准识别结构、证据、方法、表达和实践价值缺陷。
+1. 接收用户提供的具体内容（章节、报告、整篇草稿）。
+2. 以“严格审稿人”身份进行多维度审查：
+   - 数据真实性与可信度
+   - AI 工具使用伦理与透明度
+   - 实用性与工程管理应用价值
+   - 逻辑严谨性与论证完整性
+   - 格式与 ZJU 规范符合度
+   - 文献引用规范性
+   - 工作量与独立完成度
+3. 输出结构化审查报告：
+   - 致命问题（必须修改）
+   - 重要问题（强烈建议修改）
+   - 优化建议
+   - 具体修改示例（仅针对问题点）
+   - 通过率预估（中期报告/预答辩）
+4. 提供修订优先级清单和下一步行动建议。
+5. 强制添加“严格审查合规检查清单”。
 
-## Quick Reference
+## Quick Reference - ZJU MEM 审稿重点
 
-| 项目 | 内容 |
-|---|---|
-| 典型输入 | 章节草稿、全文、答辩材料。 |
-| 典型输出 | 批判性意见、高风险点、整改优先级。 |
-| 依赖关系 | 可与 defense-prep、revision-and-proofreading 联动。 |
-| 当前备注 | 目的不是友好润色，而是尽早暴露潜在被否问题。 |
+- 数据必须真实、可验证（企业日志、AI 系统记录等）
+- AI 使用必须说明伦理、透明度、局限性
+- 成果需具有实用性、可行可鉴
+- 中期报告重点检查已写章节质量和三级目录
+- 盲审双盲：内容质量决定一切
 
-## Implementation Process
+## Implementation / Process
 
-先确认当前任务是否属于 **strict-reviewer** 的职责范围，再检查是否存在前置技能或门禁约束。如果存在更高优先级的前置要求，例如文献核验、格式校验或答辩风险评估，应先满足前置条件，再进入本技能的主任务处理。执行过程中必须坚持实践导向、真实数据导向与学校规范导向，不得为了追求表达完整而虚构信息。
+1. 确认审查对象和当前阶段。
+2. 执行严格审查并分类问题。
+3. 输出问题清单 + 修改建议 + 示例。
+4. 给出通过率预估和优先修改顺序。
+5. 输出“严格审查自查清单”并建议调用 revision-and-proofreading 或 formatting-compliance-zju。
+6. 结束时询问是否需要立即修改特定问题。
 
-## Required Sub-Skills
+## Required Background / Sub-Skills
 
-该技能当前作为 thesis Skills 体系的一部分使用。若遇到跨任务情形，应优先由 **thesis-orchestrator** 进行总控分发；若涉及文献正式使用，应优先检查 **literature-verification** 是否已完成；若涉及最终提交稿，应与 **formatting-compliance-zju** 和 **thesis-final-assembly** 联动。
+- revision-and-proofreading
+- formatting-compliance-zju
+- literature-verification
+- thesis-orchestrator（可选）
 
-## Common Mistakes
+## Common Mistakes to Avoid
 
-| 常见错误 | 风险 |
-|---|---|
-| 跳过前置技能直接写结论 | 容易造成格式错误、论证断层或引用失真 |
-| 把占位内容当正式原文 | 会导致技能定义与原始版本不一致 |
-| 忽视实践导向 | 会削弱 MEM 论文的工程价值 |
-| 忽视风险提示 | 会在中期、预答辩、盲审阶段暴露问题 |
+- 审查过于温和而不严格
+- 直接大规模重写而不先列问题清单
+- 忽略 AI 伦理或数据可信度
+- 不提供具体修改示例
+- 输出不包含通过率预估和自查清单
 
 ## Examples
 
-> 调用示例：`strict-reviewer：请基于当前草稿执行对应任务，并严格遵循 thesis Skills 体系规则。`
+Good Example:
+用户：strict-reviewer：模拟盲审对我的中期报告第 2 节
+输出：致命问题 3 条 + 重要问题 2 条 + 具体修改示例 + 通过率预估 + 自查清单。
 
-> 当前版本说明：本文件是可运行的仓库占位版，不等于此前对话中可能存在的完整原始技能文本。
+Bad Example (严格禁止):
+直接修改文字而不以审稿人身份输出问题分析。
 
 ## Testing / Self-Check
 
-在实际使用前，先自检以下三点：第一，当前任务是否确实属于本技能职责；第二，是否存在尚未完成的前置校验；第三，当前输出是否基于真实材料、真实数据与已确认规则，而不是推断性补写。
+- 是否以严格审稿人视角输出问题清单？
+- 是否覆盖数据可信度、AI 伦理、实用性、ZJU 规范？
+- 是否提供具体修改建议和示例？
+- 是否包含通过率预估和自查清单？
+- 是否绝不直接大规模重写内容？
 
-## 固定底层约束
-
-| 主题 | 规则 |
-|---|---|
-| 论文主题 | AI赋能下创业公司技术开发的质量管理 |
-| 专业导向 | 浙江大学 MEM，实践导向、工程管理导向 |
-| 输出格式 | Markdown 优先，便于转 Word |
-| 文献要求 | 文献使用前必须先经 literature-verification |
-| 数据要求 | 禁止虚构数据，必须基于真实工程实践与真实数据 |
-| 图表要求 | 图注在下，表题在上，按章编号，自解释 |
-| 参考文献 | GB/T 7714—2015 |
-| 中期报告 | 必须采用固定五部分模板 |
-| 风险提示 | 中期报告和预答辩阶段必须显式提示风险 |
-
-
-## 原文恢复状态
-
-> 待补原文。如果后续补齐历史对话中的原始技能定义，应在保留本文件结构的基础上，用原文替换当前占位说明。
+End of Skill
