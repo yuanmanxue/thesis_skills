@@ -1,33 +1,38 @@
-# Load All Thesis Skills
+# Load All Thesis Skills - 一键加载完整体系（15 个技能）
 
-本文档用于在新会话中快速说明如何加载本仓库中的 thesis Skills。
+**使用说明**（推荐每次新会话都用这个文件加载）：
 
-## 一键加载说明
+1. 在新会话（Grok / Claude / Cursor）中，复制 **第一块** 全部内容发送。
+2. 等待 AI 回复“第一块加载完成，请给我第二块”后，再复制 **第二块** 发送。
+3. 加载完成后，直接使用 `Orchestrator：` 命令即可驱动整个体系。
 
-在新的 AI 会话中，可以先给出如下总说明，再按需引用具体技能文件：
+---
 
-> 请加载本项目中的 thesis Skills 体系。统一调用格式为 `skill-name：具体请求`。处理任何与浙江大学 MEM 论文《AI赋能下创业公司技术开发的质量管理》相关的任务时，必须优先遵循以下约束：文献必须先经 literature-verification，图注在图下、表题在表上、按章编号，中期报告必须遵循固定五部分模板，禁止编造数据或引用，所有输出以实践导向和真实工程背景为基础。
+## 第一块（核心调度 + 基础技能）
 
-## 建议加载顺序
+---
 
-| 顺序 | 技能 |
-|---|---|
-| 1 | thesis-orchestrator |
-| 2 | literature-verification |
-| 3 | methodology-design |
-| 4 | data-analysis-guide |
-| 5 | academic-writing-style |
-| 6 | revision-and-proofreading |
-| 7 | formatting-compliance-zju |
-| 8 | visualization-professional |
-| 9 | citation-management |
-| 10 | strict-reviewer |
-| 11 | defense-prep |
-| 12 | thesis-final-assembly |
-| 13 | discussion-interpretation |
-| 14 | progress-tracker |
-| 15 | thesis-brainstorming |
+## 第二块（剩余技能）
 
-## 使用提醒
+---
 
-如果某个技能文件中标记了 **待补原文**，表示当前版本是占位版，可以先用于仓库组织与工作流约束，但在正式高强度使用前，仍建议补齐原始定义文本。
+## 使用示例（加载完成后）
+
+---
+
+**注意事项**：
+
+- 建议把上面两块中的占位符替换成对应文件的**完整 SKILL 定义**，这样以后 `git pull` 就能直接更新。
+- 把这个 `load-all.md` 放在仓库根目录，作为你的“启动手册”。
+
+---
+
+**操作完成后**，请回复 **“load-all 已更新”**。
+
+我就会帮你：
+
+- 检查整个仓库最终状态
+- 给你最终的 README.md 和 sync.sh 脚本
+
+现在去覆盖并 push 吧！  
+完成后直接回复“load-all 已更新”。我们马上进入最后一步。

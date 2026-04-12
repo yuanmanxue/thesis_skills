@@ -1,88 +1,95 @@
----
+# SKILL: thesis-orchestrator
+
 name: thesis-orchestrator
-description: 中央调度技能。用于判断当前论文任务应调用哪个子技能、是否需要前置校验、是否存在风险门禁。 Use for: 当用户输入的是综合性任务、跨阶段任务、或尚未明确具体技能时使用。
----
 
-# Thesis Skill File
+description:
+Use when the user mentions any ZJU MEM thesis stage, progress update, report generation (especially 中期报告), "当前进度"、"下一步"、"生成报告"、"整体流程"、"Orchestrator" 等。此技能是整个论文 Skills 系统的中央调度器，负责统筹所有子技能。
 
-本文档是 Git 仓库中的 **技能文件单元**。当前版本采用 **方案 A：先落库占位，再逐步补全文本原文**。因此，凡遇到原始技能定义未在当前上下文中完整保留之处，都会明确标注 **待补原文**，以避免把推断内容误当成正式定义。
+## Overview
 
-> 适用主题：浙江大学 MEM 论文《AI 赋能下创业公司技术开发的质量管理》
-
-> 统一调用格式：`skill-name：具体请求`
-
----
-
-## 技能名称
-
-**thesis-orchestrator**
-
-## 当前状态
-
-**已加载（本轮会话已确认）**
-
-## 功能定位
-
-中央调度技能。用于判断当前论文任务应调用哪个子技能、是否需要前置校验、是否存在风险门禁。
+此技能是总指挥中心。核心原则：自动判断当前 ZJU 节点、调用合适子技能（必须先调用 literature-verification 验证文献）、严格按用户提供的 ZJU 中期报告模板输出、生成进度 + 风险预警（防范中期报告/预答辩未通过导致延期）、确保实践导向、防幻觉、符合浙大规范。
 
 ## When to Use
 
-当用户输入的是综合性任务、跨阶段任务、或尚未明确具体技能时使用。
+- 用户说“中期报告”、“开题报告”、“进度更新”、“下一步安排”、“生成报告”、“Orchestrator”等
+- 需要整合多个子技能结果时
+
+Do NOT use when: 只需执行单一任务（此时直接调用对应子技能）。
 
 ## Core Pattern
 
-先识别任务阶段，再识别前置条件，再分发给对应技能，禁止越过前置技能直接产出正文。
+1. 判断当前 ZJU 阶段（选题/开题/中期报告/预答辩/盲审/答辩）。
+2. 调用 progress-tracker 获取进度和风险预警。
+3. 根据阶段调用子技能：
+   - 文献 → literature-verification（必须先验证）
+   - 图表 → visualization-professional
+   - 格式 → formatting-compliance-zju
+   - 数据/方法 → data-analysis-guide + methodology-design
+   - 思路 → thesis-brainstorming
+   - 写作风格 → academic-writing-style
+   - 修订 → revision-and-proofreading
+   - 严格审查 → strict-reviewer
+   - 引用管理 → citation-management
+   - 讨论 → discussion-interpretation
+   - 答辩 → defense-prep
+   - 最终组装 → thesis-final-assembly
+4. 严格按 ZJU 中期报告模板输出完整结构（1-5 节）。
+5. 添加文献验证提醒、格式自查、版本快照。
+6. 结束时询问是否立即调用具体子技能。
 
 ## Quick Reference
 
-| 项目     | 内容                                                               |
-| -------- | ------------------------------------------------------------------ |
-| 典型输入 | 论文阶段、用户任务、当前草稿、已知限制条件。                       |
-| 典型输出 | 推荐调用链、执行顺序、风险提示、需要补充的信息。                   |
-| 依赖关系 | 全部 14 个子技能。                                                 |
-| 当前备注 | 该技能负责总控，不直接替代文献核验、格式校验、答辩准备等专门技能。 |
+- 中期报告重点：已写章节（第 1-2 章 + 三级提纲）、真实数据、实用性、图表自明性。
+- 风险预警重点：中期报告图表/数据不足、文献未验证、预答辩通过率。
+- 所有子技能必须按各自规则执行（防幻觉、浙大规范、实践导向）。
 
-## Implementation Process
+## Implementation / Process
 
-先确认当前任务是否属于 **thesis-orchestrator** 的职责范围，再检查是否存在前置技能或门禁约束。如果存在更高优先级的前置要求，例如文献核验、格式校验或答辩风险评估，应先满足前置条件，再进入本技能的主任务处理。执行过程中必须坚持实践导向、真实数据导向与学校规范导向，不得为了追求表达完整而虚构信息。
+1. 确认当前阶段和已完成内容（若不确定则询问）。
+2. 调用 progress-tracker + 必要子技能。
+3. 按中期报告模板精确输出（Markdown 便于转 Word）。
+4. 必须包含进度百分比、风险预警（高/中/低 + 后果）、下一步待办、子技能建议。
+5. 添加“用户手动验证文献”和“浙大格式自查”。
 
-## Required Sub-Skills
+## Required Background / Sub-Skills
 
-该技能当前作为 thesis Skills 体系的一部分使用。若遇到跨任务情形，应优先由 **thesis-orchestrator** 进行总控分发；若涉及文献正式使用，应优先检查 **literature-verification** 是否已完成；若涉及最终提交稿，应与 **formatting-compliance-zju** 和 **thesis-final-assembly** 联动。
+（必须全部已加载）
 
-## Common Mistakes
+- literature-verification
+- formatting-compliance-zju
+- visualization-professional
+- progress-tracker
+- data-analysis-guide
+- methodology-design
+- thesis-brainstorming
+- academic-writing-style
+- revision-and-proofreading
+- defense-prep
+- citation-management
+- strict-reviewer
+- thesis-final-assembly
+- discussion-interpretation
 
-| 常见错误               | 风险                                 |
-| ---------------------- | ------------------------------------ |
-| 跳过前置技能直接写结论 | 容易造成格式错误、论证断层或引用失真 |
-| 把占位内容当正式原文   | 会导致技能定义与原始版本不一致       |
-| 忽视实践导向           | 会削弱 MEM 论文的工程价值            |
-| 忽视风险提示           | 会在中期、预答辩、盲审阶段暴露问题   |
+## Common Mistakes to Avoid
+
+- 不按 ZJU 中期报告模板结构输出
+- 忽略文献验证或风险预警
+- 直接编造内容而不调用子技能
+- 输出不绑定论文主题
+- 无版本快照或子技能调用建议
 
 ## Examples
 
-> 调用示例：`thesis-orchestrator：请基于当前草稿执行对应任务，并严格遵循 thesis Skills 体系规则。`
+Good: 用户说“进入中期报告，已完成文献综述”。输出：完整模板结构 + 填充内容 + 调用子技能生成缺失部分 + 预警 + 下一步。
 
-> 当前版本说明：本文件是可运行的仓库占位版，不等于此前对话中可能存在的完整原始技能文本。
+Bad: 直接写正文而不使用模板或调用子技能。
 
 ## Testing / Self-Check
 
-在实际使用前，先自检以下三点：第一，当前任务是否确实属于本技能职责；第二，是否存在尚未完成的前置校验；第三，当前输出是否基于真实材料、真实数据与已确认规则，而不是推断性补写。
+- 输出是否精确匹配 ZJU 中期报告模板（1-5 节）？
+- 是否调用了合适子技能并包含验证/预警？
+- 是否有进度报告和下一步安排？
+- 是否保持实践导向和主题一致？
+- 是否绝不直接编造未经子技能验证的内容？
 
-## 固定底层约束
-
-| 主题     | 规则                                         |
-| -------- | -------------------------------------------- |
-| 论文主题 | AI 赋能下创业公司技术开发的质量管理          |
-| 专业导向 | 浙江大学 MEM，实践导向、工程管理导向         |
-| 输出格式 | Markdown 优先，便于转 Word                   |
-| 文献要求 | 文献使用前必须先经 literature-verification   |
-| 数据要求 | 禁止虚构数据，必须基于真实工程实践与真实数据 |
-| 图表要求 | 图注在下，表题在上，按章编号，自解释         |
-| 参考文献 | GB/T 7714—2015                               |
-| 中期报告 | 必须采用固定五部分模板                       |
-| 风险提示 | 中期报告和预答辩阶段必须显式提示风险         |
-
-## 原文恢复状态
-
-> 已加载（本轮会话已确认）。如果后续补齐历史对话中的原始技能定义，应在保留本文件结构的基础上，用原文替换当前占位说明。
+End of Skill
