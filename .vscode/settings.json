@@ -1,0 +1,12 @@
+{
+  "files.associations": {
+    "*.mdc": "markdown"
+  },
+  "search.exclude": {
+    "**/.git": true
+  },
+  "files.exclude": {
+    "**/.DS_Store": true
+  },
+  "markdown.validate.enabled": true
+}
