@@ -1,0 +1,3 @@
+# Cursor Rules Index
+
+本目录中的 `.mdc` 文件均为指向 `skills/` 主源的符号链接。若需要修改规则，请修改 `skills/` 目录中的原始文件，而不要直接改动 symlink。
