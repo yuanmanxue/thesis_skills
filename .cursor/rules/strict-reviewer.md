@@ -1,0 +1,1 @@
+../../skills/strict-reviewer.md

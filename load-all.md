@@ -29,6 +29,8 @@
 
 **操作完成后**，请回复 **“load-all 已更新”**。
 
+本文件是 **thesis_skills** 仓库的统一加载模板。
+
 我就会帮你：
 
 - 检查整个仓库最终状态
@@ -36,3 +38,11 @@
 
 现在去覆盖并 push 吧！  
 完成后直接回复“load-all 已更新”。我们马上进入最后一步。
+
+## Perplexity Space 专用加载块（推荐优先使用）
+
+**操作步骤**：
+
+1. 在 Perplexity 新建/进入 Space
+2. 把下面 **完整内容** 粘贴到 **Custom Instructions** 区域
+3. 再把 `skills/` 文件夹下所有 .md 文件上传到该 Space
