@@ -1,61 +1,49 @@
-# Thesis Skills Repository
+# Thesis Skills - 浙江大学工程管理硕士毕业论文 Skills 体系
 
-本仓库用于维护浙江大学 MEM 论文《**AI赋能下创业公司技术开发的质量管理**》的 **thesis Skills 技能体系**。当前版本采用 **方案 A**：先落库 15 个技能文件、统一目录结构和多工具共享链接，再逐步补齐原始技能定义。
+**项目介绍**  
+这是一个专为“AI 赋能下创业公司技术开发的质量管理”毕业论文定制的 Skills 体系，包含 15 个模块化技能 + 1 个总调度器（thesis-orchestrator）。  
+完全适配 ZJU MEM 实践导向论文要求（中期报告模板、GB/T 7714 引用、图表自明性、真实文献、防幻觉等）。
 
-## 仓库目标
+### 技能列表（skills/ 文件夹）
 
-本仓库的目标不是只保存一份静态文档，而是把 thesis Skills 维护成一套可以被多个 AI 工具共同读取的单一事实源。为此，仓库采用 `skills/` 作为主源目录，再通过符号链接同步到不同工具的约定目录，以保证 Cursor、Claude、Grok 读取的是同一份文件，而不是三份容易漂移的副本。
+- thesis-orchestrator.md → 总调度器（核心大脑）
+- literature-verification.md → 文献防幻觉验证
+- formatting-compliance-zju.md → 浙大格式合规守护者
+- visualization-professional.md → 专业图表生成器（AI Agent 架构图等）
+- progress-tracker.md → 进度追踪 + 节点风险预警
+- citation-management.md → 参考文献管理（GB/T 7714）
+- strict-reviewer.md → 严格审稿人模拟（盲审/预答辩挑刺）
+- data-analysis-guide.md → 数据分析指导（含 Python 代码）
+- methodology-design.md → 方法论设计与选择
+- thesis-brainstorming.md → 头脑风暴与问题提炼
+- academic-writing-style.md → 中文学术写作风格规范
+- revision-and-proofreading.md → 修订与校对
+- defense-prep.md → 预答辩/盲审准备
+- thesis-final-assembly.md → 最终论文组装
+- discussion-interpretation.md → 结果讨论、局限性、实践启示
 
-## 目录结构
+### 使用方法
 
-| 路径 | 作用 |
-|---|---|
-| `skills/` | 主技能文件目录，15 个技能的唯一事实源 |
-| `.cursor/rules/` | 供 Cursor 读取的规则目录，文件以 `.mdc` 形式通过 symlink 指向主源 |
-| `.claude/skills/` | 供 Claude 项目读取的技能目录，通过 symlink 指向主源 |
-| `grok/skills/` | 供 Grok 或其他兼容工作流读取的技能目录，通过 symlink 指向主源 |
-| `load-all.md` | 新会话快速加载说明 |
+#### 1. 一键加载（推荐）
 
-## 当前状态说明
+打开 `load-all.md`，按照里面的说明分两块复制加载。
 
-当前仓库中的 15 个技能文件分为两类。第一类是本轮会话中已确认加载的技能，包括 `thesis-orchestrator`、`formatting-compliance-zju`、`visualization-professional`、`revision-and-proofreading`、`defense-prep`。第二类是已确认存在但当前上下文未完整保留原文的技能，这些文件已经作为 **可用占位版本** 落库，并明确标记 **待补原文**，以防误把推断内容当成正式定义。
+#### 2. 日常使用
 
-## 15 Skills 清单
+加载完成后直接使用：
 
-| 序号 | 技能名 | 当前状态 |
-|---|---|---|
-| 1 | thesis-orchestrator | 已确认加载 |
-| 2 | literature-verification | 待补原文 |
-| 3 | formatting-compliance-zju | 已确认加载 |
-| 4 | visualization-professional | 已确认加载 |
-| 5 | progress-tracker | 待补原文 |
-| 6 | data-analysis-guide | 待补原文 |
-| 7 | methodology-design | 待补原文 |
-| 8 | thesis-brainstorming | 待补原文 |
-| 9 | academic-writing-style | 待补原文 |
-| 10 | revision-and-proofreading | 已确认加载 |
-| 11 | defense-prep | 已确认加载 |
-| 12 | citation-management | 待补原文 |
-| 13 | strict-reviewer | 待补原文 |
-| 14 | thesis-final-assembly | 待补原文 |
-| 15 | discussion-interpretation | 待补原文 |
+### 跨工具配置
 
-## 使用方式
+- **Cursor**：symlink 到 `.cursor/rules/` 或 `.cursor/skills/`
+- **Claude**：symlink 到 `.claude/skills/`
+- **Grok**：直接复制 load-all.md 内容加载
 
-推荐统一采用如下调用格式：
+### 维护方式
 
-> `skill-name：具体请求`
+```bash
+# 更新所有技能
+git pull
 
-例如：
-
-> `literature-verification：请核验这篇文献是否真实可引用。`
-
-> `defense-prep：请按预答辩标准指出这版 PPT 的高风险问题。`
-
-## 多工具同步原则
-
-所有工具都应优先读取 symlink 指向的主源文件，而不是在各自目录中维护分叉副本。这样做的好处在于，只要 `skills/` 中的源文件更新，Cursor、Claude、Grok 所看到的内容就会同步更新，降低维护成本并避免版本漂移。
-
-## 后续建议
-
-下一步建议优先补齐 `literature-verification`、`methodology-design`、`data-analysis-guide`、`citation-management`、`strict-reviewer` 这几类高优先级技能原文，使仓库尽快从“可用占位版”升级为“可长期复用正式版”。
+# 本地同步（推荐使用 sync.sh）
+./sync.sh
+```
