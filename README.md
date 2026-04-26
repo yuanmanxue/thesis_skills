@@ -71,6 +71,14 @@
 |---|---|
 | perplexity-custom-instructions | Perplexity Space 专用 Master Prompt |
 
+## 技能全景图
+
+详细的技能架构图、阶段路由速查表和技能关联关系，请查看：
+
+**[→ docs/skills-map.md](docs/skills-map.md)**
+
+---
+
 ## 使用方法
 
 ### 1. 一键加载（推荐）
