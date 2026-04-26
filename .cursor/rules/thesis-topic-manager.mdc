@@ -1,0 +1,1 @@
+../../skills/thesis-topic-manager.md

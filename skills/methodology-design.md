@@ -3,11 +3,11 @@
 name: methodology-design
 
 description:
-Use when the user needs to design or select research methodology for the ZJU MEM thesis on AI-empowered quality management in startup technology development. This skill focuses on practical engineering management methods (DMAIC, PDCA, Six Sigma, system dynamics, etc.), internal comparison for selection, and ensures the chosen method fits the practical, data-driven, AI/Agent scenario. Do not write full comparison tables in the final paper.
+Use when the user needs to design or select research methodology for the ZJU MEM thesis (topic dynamically provided by thesis-topic-manager). This skill focuses on practical engineering management methods (DMAIC, PDCA, Six Sigma, system dynamics, etc.), internal comparison for selection, and ensures the chosen method fits the practical, data-driven, AI/Agent scenario. Do not write full comparison tables in the final paper.
 
 ## Overview
 
-这是整个论文系统的方法论设计器。核心原则：实践导向，只在内部调研对比后推荐**最适合的一种方法**用于论文（不在正文中写大篇对比），强调真实数据、AI 赋能适配（Agent 架构、质量指标优化等）、浙大规范（真实数据支撑、实用性、图表自明性）。
+这是整个论文系统的方法论设计器。核心原则：基于 `thesis-topic-manager` 提供的动态研究主题，实践导向，只在内部调研对比后推荐**最适合的一种方法**用于论文（不在正文中写大篇对比），强调真实数据、场景适配、浙大规范（真实数据支撑、实用性、图表自明性）。
 
 ## When to Use
 
@@ -21,7 +21,7 @@ Do NOT use when: 只是数据分析执行或纯格式调整（此时用对应子
 
 1. 明确用户当前需求（整体方法论、具体框架、方法选择）。
 2. 内部调研常见质量管理方法（DMAIC、PDCA、六西格玛、系统动力学、案例研究、混合方法等）。
-3. 基于论文主题（AI 赋能创业公司技术开发质量管理、计算机/AI/Agent 方向）进行适配性评估。
+3. 基于 thesis-topic-manager 提供的当前论文主题进行适配性评估。
 4. 推荐**最适合的一种方法** + 简要理由（例如“推荐 DMAIC，因其 Define-Measure-Analyze-Improve-Control 闭环结构适合 AI 质量管理反馈优化”）。
 5. 输出详细实施步骤（分阶段、可与 data-analysis-guide 结合）。
 6. 生成图表输入建议（流程图、因果循环图、架构图，供 visualization-professional 使用）。
@@ -39,7 +39,7 @@ Do NOT use when: 只是数据分析执行或纯格式调整（此时用对应子
 
 1. 确认当前阶段和已有内容（数据、文献等）。
 2. 列出 2-4 种候选方法 + 内部简要适配评估（不在输出中展开大对比）。
-3. 推荐一种最佳方法 + 详细理由（绑定创业公司场景、AI 赋能特点）。
+3. 推荐一种最佳方法 + 详细理由（绑定 thesis-topic-manager 提供的当前主题场景）。
 4. 输出分步实施指南 + 与数据分析的结合点。
 5. 提供图表/流程建议（Mermaid 或 Python 输入）。
 6. 输出“方法论合规检查清单”：
@@ -59,7 +59,7 @@ Do NOT use when: 只是数据分析执行或纯格式调整（此时用对应子
 ## Common Mistakes to Avoid
 
 - 在论文正文中写大篇方法对比表格（只内部选择）
-- 推荐方法与 AI 赋能创业公司质量管理场景脱节
+- 推荐方法与 thesis-topic-manager 提供的当前研究主题场景脱节
 - 忽略真实数据可行性和工作量要求
 - 生成泛化方法而不提供具体步骤
 - 无图表输入建议或不提醒浙大自明性

@@ -3,11 +3,11 @@
 name: data-analysis-guide
 
 description:
-Use when the user needs guidance on data collection, cleaning, calculation, statistical analysis, or method selection for the ZJU MEM thesis on AI-empowered quality management in startup technology development. This skill focuses on practical engineering management data handling, method comparison/selection (not writing full comparison tables in paper), and ensures real data + ZJU formatting compliance.
+Use when the user needs guidance on data collection, cleaning, calculation, statistical analysis, or method selection for the ZJU MEM thesis. This skill dynamically references the current research topic from thesis-topic-manager, focuses on practical engineering management data handling, method comparison/selection (not writing full comparison tables in paper), and ensures real data + ZJU formatting compliance.
 
 ## Overview
 
-这是整个论文系统的数据分析指导器。核心原则：强调实践导向（真实企业数据、AI Agent 应用场景）、方法选择（DMAIC、PDCA、六西格玛、系统动力学等质量管理常用方法），只选最适合的一种用于论文。所有步骤必须支持真实数据计算、统计分析，并生成可用于 visualization-professional 的图表输入。
+这是整个论文系统的数据分析指导器。核心原则：基于 `thesis-topic-manager` 提供的动态研究主题，强调实践导向（真实企业数据、实际应用场景）、方法选择（根据当前主题选择最适合的质量管理方法），只选最适合的一种用于论文。所有步骤必须支持真实数据计算、统计分析，并生成可用于 visualization-professional 的图表输入。
 
 ## When to Use
 
@@ -31,7 +31,7 @@ Do NOT use when: 只是文献检索或纯格式调整（此时用对应子技能
 
 ## Quick Reference - 实践导向重点
 
-- 优先真实企业/模拟数据（创业公司技术开发质量指标：缺陷率、交付周期、AI 干预效果等）。
+- 优先真实企业/模拟数据（基于 thesis-topic-manager 当前主题相关的质量指标）。
 - 方法选择原则：简单可行、数据支撑强、AI 赋能适配。
 - 输出必须支持 ZJU 规范：图表自明性（编号+图题下方）、真实数据可靠。
 
@@ -59,7 +59,7 @@ Do NOT use when: 只是文献检索或纯格式调整（此时用对应子技能
 - 直接编造不存在的数据或结果
 - 在论文正文中写大篇方法对比表格（只内部选择）
 - 忽略真实数据来源和验证
-- 生成泛化步骤而不绑定 AI 赋能创业公司质量管理场景
+- 生成泛化步骤而不紧扣 thesis-topic-manager 提供的当前研究主题场景
 - 无 Python 代码或图表输入建议
 - 不提醒浙大自明性要求
 

@@ -3,7 +3,7 @@
 name: literature-verification
 
 description:
-Use when the user or any other thesis skill needs to cite literature for the ZJU MEM thesis on "AI 赋能下创业公司技术开发的质量管理". This skill MUST be called before any literature is used in brainstorming, outlining, writing, or reporting. It ensures ONLY real, formally published literature from credible platforms (知网、万方、维普、CSSCI、北大核心、IEEE、ACM、Google Scholar with verifiable DOI/link) is accepted. Never allow fabricated or "可能存在" references.
+Use when the user or any other thesis skill needs to cite literature for the ZJU MEM thesis (topic dynamically provided by thesis-topic-manager). This skill MUST be called before any literature is used in brainstorming, outlining, writing, or reporting. It ensures ONLY real, formally published literature from credible platforms (知网、万方、维普、CSSCI、北大核心、IEEE、ACM、Google Scholar with verifiable DOI/link) is accepted. Never allow fabricated or "可能存在" references.
 
 ## Overview
 
@@ -23,7 +23,7 @@ Do NOT use when: 只是 brainstorm 想法而不需要具体引用。
 2. 输出可验证列表：每条文献必须包含标题、作者、发表年份、期刊/会议/来源平台、DOI 或可访问链接。
 3. 强制验证检查点：列出“用户手动验证清单”，只有用户确认后才允许使用。
 4. 同时输出 GB/T 7714 格式。
-5. 优先近期、高影响力、与 AI 赋能质量管理相关的正式发表文献。
+5. 优先近期、高影响力、与 thesis-topic-manager 提供的当前研究主题相关的正式发表文献。
 
 ## Quick Reference
 
