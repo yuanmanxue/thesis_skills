@@ -1,0 +1,21 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "github.copilot.enable": {
+      "*": true,
+      "markdown": true,
+      "tex": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "github.copilot",
+      "ms-python.python",
+      "james-yu.latex-workshop"
+    ]
+  }
+}
